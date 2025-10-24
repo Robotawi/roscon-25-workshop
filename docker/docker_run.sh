@@ -33,9 +33,7 @@ if [ "$NO_GUI" = false ]; then
 
     # Add nvidia runtime if --nvidia is specified
     if [ "$NVIDIA" = true ]; then
-        DOCKER_CMD="$DOCKER_CMD --runtime nvidia"
-        DOCKER_CMD="$DOCKER_CMD -e NVIDIA_VISIBLE_DEVICES=all"
-        DOCKER_CMD="$DOCKER_CMD -e NVIDIA_DRIVER_CAPABILITIES=all"
+        DOCKER_CMD="$DOCKER_CMD --gpus all"
     else
         DOCKER_CMD="$DOCKER_CMD --device /dev/dri:/dev/dri"
     fi
