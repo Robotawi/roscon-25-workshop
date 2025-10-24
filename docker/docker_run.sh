@@ -4,6 +4,7 @@ SCRIPTPATH=$(dirname "$SCRIPT")
 # Parse command line arguments
 NO_GUI=false
 NVIDIA=false
+PERSIST=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -15,16 +16,24 @@ while [[ $# -gt 0 ]]; do
             NVIDIA=true
             shift
             ;;
+        --persist)
+            PERSIST=true
+            shift
+            ;;
         *)
             echo "Unknown argument: $1"
-            echo "Usage: $0 [--no-gui] [--nvidia]"
+            echo "Usage: $0 [--no-gui] [--nvidia] [--persist]"
             exit 1
             ;;
     esac
 done
 
 # Build docker run command
-DOCKER_CMD="docker run -it --rm"
+DOCKER_CMD="docker run -it"
+# Add --rm unless --persist is specified
+if [ "$PERSIST" = false ]; then
+    DOCKER_CMD="$DOCKER_CMD --rm"
+fi
 
 # Add GUI support unless --no-gui is specified
 if [ "$NO_GUI" = false ]; then
